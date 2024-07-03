@@ -1,0 +1,202 @@
+     JavaScript Fundamental Assignment 
+       
+1.)
+Sure! Let's create a JavaScript function called `outerFunction` that takes a parameter and returns an inner function. The inner function will access both the parameter of `outerFunction` and a variable declared within `outerFunction`. We'll then demonstrate how lexical scoping allows the inner function to maintain access to these variables even after `outerFunction` has finished executing.
+
+Here's the code:
+
+```javascript
+function outerFunction(param) {
+    let outerVariable = "I'm an outer variable";
+
+    function innerFunction() {
+        console.log("Outer parameter: " + param);
+        console.log("Outer variable: " + outerVariable);
+    }
+
+    return innerFunction;
+}
+
+const inner = outerFunction("Hello, world!");
+inner(); // This will log the outer parameter and the outer variable
+```
+
+### Explanation
+
+1. **outerFunction**: This function takes a parameter `param` and declares a variable `outerVariable` within its scope.
+2. **innerFunction**: This is the inner function that logs the value of `param` and `outerVariable`. This function is defined within the scope of `outerFunction`.
+3. **Returning innerFunction**: The `outerFunction` returns the `innerFunction`, allowing it to be called outside of `outerFunction`.
+4. **Invoking outerFunction**: When `outerFunction` is invoked with the argument `"Hello, world!"`, it returns the `innerFunction`.
+5. **Calling innerFunction**: Even though `outerFunction` has finished executing, the `innerFunction` maintains access to `param` and `outerVariable` due to lexical scoping. This is demonstrated when `inner()` is called, and it logs the values of `param` and `outerVariable`.
+
+Lexical scoping ensures that `innerFunction` retains access to the scope in which it was defined, including any variables declared within `outerFunction` and its parameters, even after `outerFunction` has completed execution. This is possible because JavaScript functions create closures, preserving the context in which they were created.
+
+
+2.) 
+Sure! Below is a JavaScript program that demonstrates the basic usage of regular expressions. It includes a function that takes a regex pattern and a string as input and returns `true` if there is a match, and `false` otherwise. Additionally, I will include some test cases to demonstrate the function with various patterns and strings.
+
+```javascript
+// Function to check if a string matches a regex pattern
+function regexMatch(pattern, str) {
+    // Create a RegExp object from the pattern
+    let regex = new RegExp(pattern);
+    
+    // Test if the string matches the pattern
+    return regex.test(str);
+}
+
+// Test cases
+console.log(regexMatch('hello', 'hello world'));  // true
+console.log(regexMatch('world$', 'hello world')); // true
+console.log(regexMatch('^hello', 'hello world')); // true
+console.log(regexMatch('\\d+', '123abc'));        // true
+console.log(regexMatch('[a-z]', '123abc'));       // true
+console.log(regexMatch('[^a-z]', '123abc'));      // true
+console.log(regexMatch('^\\d+$', '123abc'));      // false
+console.log(regexMatch('goodbye', 'hello world'));// false
+```
+
+### Explanation
+
+1. **regexMatch Function**:
+   - The function takes two parameters: `pattern` (a regex pattern as a string) and `str` (the string to test against the pattern).
+   - It creates a `RegExp` object from the pattern using the `RegExp` constructor.
+   - It uses the `test` method of the `RegExp` object to check if the string matches the pattern and returns `true` or `false`.
+
+2. **Test Cases**:
+   - `regexMatch('hello', 'hello world')`: The pattern `'hello'` matches the substring `'hello'` in `'hello world'`, so it returns `true`.
+   - `regexMatch('world$', 'hello world')`: The pattern `'world$'` matches `'world'` at the end of the string `'hello world'`, so it returns `true`.
+   - `regexMatch('^hello', 'hello world')`: The pattern `'^hello'` matches `'hello'` at the beginning of the string `'hello world'`, so it returns `true`.
+   - `regexMatch('\\d+', '123abc')`: The pattern `'\\d+'` matches one or more digits in the string `'123abc'`, so it returns `true`.
+   - `regexMatch('[a-z]', '123abc')`: The pattern `'[a-z]'` matches any lowercase letter in the string `'123abc'`, so it returns `true`.
+   - `regexMatch('[^a-z]', '123abc')`: The pattern `'[^a-z]'` matches any character that is not a lowercase letter in the string `'123abc'`, so it returns `true`.
+   - `regexMatch('^\\d+$', '123abc')`: The pattern `'^\\d+$'` matches a string that consists entirely of digits from start to end. Since `'123abc'` contains non-digit characters, it returns `false`.
+   - `regexMatch('goodbye', 'hello world')`: The pattern `'goodbye'` does not match any substring in `'hello world'`, so it returns `false`.
+
+These examples demonstrate how to use regular expressions in JavaScript for pattern matching in strings.
+
+3.)
+Sure! Below is a JavaScript program that demonstrates the use of character classes in regular expressions. It includes a function that searches for specific character classes in a given string and returns the matches. The function is tested with patterns for digits, uppercase letters, lowercase letters, and special characters.
+
+```javascript
+// Function to find matches for specific character classes in a string
+function findCharacterClasses(pattern, str) {
+    let regex = new RegExp(pattern, 'g'); // 'g' flag for global search
+    return str.match(regex) || []; // Returns matches or an empty array if no matches are found
+}
+
+// Test cases
+const testString = "Hello World! 12345 @#$%^&*()";
+
+const digitsPattern = '\\d';
+const uppercasePattern = '[A-Z]';
+const lowercasePattern = '[a-z]';
+const specialCharsPattern = '[^a-zA-Z0-9\\s]'; // Characters that are not letters, digits, or whitespace
+
+console.log('Digits:', findCharacterClasses(digitsPattern, testString)); // ['1', '2', '3', '4', '5']
+console.log('Uppercase Letters:', findCharacterClasses(uppercasePattern, testString)); // ['H', 'W']
+console.log('Lowercase Letters:', findCharacterClasses(lowercasePattern, testString)); // ['e', 'l', 'l', 'o', 'o', 'r', 'l', 'd']
+console.log('Special Characters:', findCharacterClasses(specialCharsPattern, testString)); // ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')']
+```
+
+### Explanation
+
+1. **findCharacterClasses Function**:
+   - The function takes two parameters: `pattern` (a regex pattern as a string) and `str` (the string to search).
+   - It creates a `RegExp` object from the pattern using the `RegExp` constructor with the `'g'` flag for a global search.
+   - It uses the `match` method of the string object to find all matches of the pattern in the string and returns the matches. If no matches are found, it returns an empty array.
+
+2. **Test Cases**:
+   - **Digits Pattern** (`'\\d'`): Matches any digit character (`0-9`).
+   - **Uppercase Letters Pattern** (`'[A-Z]'`): Matches any uppercase letter (`A-Z`).
+   - **Lowercase Letters Pattern** (`'[a-z]'`): Matches any lowercase letter (`a-z`).
+   - **Special Characters Pattern** (`'[^a-zA-Z0-9\\s]'`): Matches any character that is not a letter, digit, or whitespace. This is useful for finding punctuation and other symbols.
+
+3. **Example Test String**:
+   - The test string is `"Hello World! 12345 @#$%^&*()"`.
+   - The function `findCharacterClasses` is called with each pattern and the test string to find the matches for digits, uppercase letters, lowercase letters, and special characters.
+
+These examples demonstrate how to use regular expressions and character classes in JavaScript to search for specific types of characters in a string.
+
+4.)
+Sure! Below is a JavaScript program that takes a regex pattern and a string as input. The function checks if there is a match and extracts specific parts of the matched text using groups. The function is then tested with patterns that include groups to capture different parts of a date (e.g., day, month, and year) from a given string.
+
+```javascript
+// Function to check for a match and extract groups
+function extractGroups(pattern, str) {
+    let regex = new RegExp(pattern);
+    let match = str.match(regex);
+    
+    if (match) {
+        return match.groups;
+    } else {
+        return null;
+    }
+}
+
+// Test cases
+const testString1 = "The event is on 2023-07-03.";
+const datePattern1 = /(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/;
+
+console.log('Test Case 1:', extractGroups(datePattern1, testString1));
+// Output: { year: '2023', month: '07', day: '03' }
+
+const testString2 = "The deadline is 31/12/2024.";
+const datePattern2 = /(?<day>\d{2})\/(?<month>\d{2})\/(?<year>\d{4})/;
+
+console.log('Test Case 2:', extractGroups(datePattern2, testString2));
+// Output: { day: '31', month: '12', year: '2024' }
+
+const testString3 = "The start date is 03-07-2025.";
+const datePattern3 = /(?<day>\d{2})-(?<month>\d{2})-(?<year>\d{4})/;
+
+console.log('Test Case 3:', extractGroups(datePattern3, testString3));
+// Output: { day: '03', month: '07', year: '2025' }
+```
+
+### Explanation
+
+1. **extractGroups Function**:
+   - The function takes two parameters: `pattern` (a regex pattern) and `str` (the string to check and extract from).
+   - It creates a `RegExp` object from the pattern.
+   - It uses the `match` method to find a match in the string.
+   - If a match is found, it returns the named capture groups as an object. If no match is found, it returns `null`.
+
+2. **Test Cases**:
+   - **Test String 1**: `"The event is on 2023-07-03."` with the pattern `/(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/`. This pattern captures the year, month, and day in the format `YYYY-MM-DD`.
+   - **Test String 2**: `"The deadline is 31/
+
+5.) Sure! Here's a JavaScript program that uses a `switch` statement to determine the estimated delivery time based on the package type.
+
+```javascript
+function calculateDeliveryTime(packageType) {
+    let deliveryTime;
+    
+    switch (packageType.toLowerCase()) {
+        case "standard":
+            deliveryTime = "3-5 days";
+            break;
+        case "express":
+            deliveryTime = "1-2 days";
+            break;
+        case "overnight":
+            deliveryTime = "next day";
+            break;
+        default:
+            deliveryTime = "Invalid package type";
+    }
+    
+    return deliveryTime;
+}
+
+function main() {
+    const packageType = prompt("Enter the type of package (standard, express, or overnight):").trim();
+    const estimatedTime = calculateDeliveryTime(packageType);
+    console.log(`Estimated delivery time: ${estimatedTime}`);
+}
+
+main();
+```
+
+This script defines a `calculateDeliveryTime` function that takes a `packageType` argument, processes it using a `switch` statement, and returns the estimated delivery time. The `main` function prompts the user for input, calls the `calculateDeliveryTime` function, and prints the result to the console.
+
